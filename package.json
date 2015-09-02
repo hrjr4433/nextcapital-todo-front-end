@@ -1,0 +1,25 @@
+{
+  "name": "nextcapital-todo-front-end",
+  "version": "1.0.0",
+  "description": "front end of todo (rails)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "http-server -a localhost -p 3000"
+  },
+  "devDependencies": {
+    "express": "~4.13.3",
+    "bootstrap": "~3.3.5",
+    "jade": "1.11.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/hrjr4433/nextcapital-todo-front-end.git"
+  },
+  "author": "Jay Lee",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hrjr4433/nextcapital-todo-front-end/issues"
+  },
+  "homepage": "https://github.com/hrjr4433/nextcapital-todo-front-end#readme"
+}

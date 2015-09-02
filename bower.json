@@ -1,0 +1,26 @@
+{
+  "name": "nextcapital-todo-front-end",
+  "version": "1.0.0",
+  "description": "front end of todo (rails)",
+  "authors": [
+    "hrjr4433 <hrjr4433@gmail.com>"
+  ],
+  "license": "ISC",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "app",
+    "client",
+    "public"
+  ],
+  "dependencies": {
+    "angular": "~1.4.5",
+    "angular-route": "~1.4.5",
+    "angular-cookies": "~1.4.5",
+    "angular-ui-bootstrap": "~0.13.3",
+    "angular-messages": "~1.4.5",
+    "angular-match": "~1.0.1",
+    "angular-xeditable": "~0.1.9"
+  }
+}

@@ -1,0 +1,36 @@
+.page-header {
+  background-color: black;
+  padding-top:9px;
+  margin: 0px 0px 0px 0px;
+  border-bottom: 0px;
+}
+
+.page-header > img {
+  display:block;
+  height:50px;
+  margin-left:auto; 
+  margin-right:auto;
+}
+
+body {
+  background-color: #DCDCDC;
+  background-size: cover;
+}
+
+.login-box {
+  background-color: white;
+  padding-bottom: 15px;
+}
+
+.welcome-message {
+  padding-top: 5%;
+  text-align: center;
+}
+
+.table {
+  width: 80%;
+  background-color: white;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}

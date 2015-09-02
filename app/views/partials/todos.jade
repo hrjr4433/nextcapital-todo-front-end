@@ -1,0 +1,18 @@
+div.navbar(role="navigation")
+  ul.nav.navbar-nav.navbar-right
+    li
+      button.btn(ng-click="todos.logout()") Logout
+
+table.table.table-hover
+  thead
+    tr
+      th ID
+      th Description
+      th Complete
+   tbody
+    tr(ng-repeat="item in todo_list")
+      td {{item.id}}
+      td 
+        p {{item.description}}
+      td 
+        {{item.is_complete}}
