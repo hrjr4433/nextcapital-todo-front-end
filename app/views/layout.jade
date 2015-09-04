@@ -4,24 +4,27 @@ html(ng-app="todoApp")
     meta(charset='utf8')
     base(href='/')
     title To Do
-    link(rel='stylesheet', href='node_modules/bootstrap/dist/css/bootstrap.css')
-    link(rel='stylesheet', href='css/main.css')
-    link(rel="stylesheet", href="bower_components/angular-xeditable/dist/css/xeditable.css")
 
+    link(rel='stylesheet', href='node_modules/bootstrap/dist/css/bootstrap.css')
+    link(rel='stylesheet', href='bower_components/datatables/media/css/dataTables.foundation.min.css')
+    link(rel='stylesheet', href='css/main.css')
+
+    script(src='bower_components/datatables/media/js/jquery.js')
     script(src='bower_components/angular/angular.js')
+    script(src='bower_components/angular-match/angular-match.js')
+    script(src="node_modules/bootstrap/dist/js/bootstrap.min.js")
     script(src='bower_components/angular-route/angular-route.js')
     script(src='bower_components/angular-cookies/angular-cookies.js')
     script(src='bower_components/angular-messages/angular-messages.js')
-    script(src='bower_components/angular-match/angular-match.js')
-    script(src="bower_components/angular-xeditable/dist/js/xeditable.js")
+    script(src='bower_components/datatables/media/js/jquery.dataTables.js')
+    script(src='bower_components/datatables/media/js/dataTables.bootstrap.min.js')
+    script(src='bower_components/angular-datatables/dist/angular-datatables.js')
     script(src='scripts/app.js')
     script(src='scripts/controllers.js')
     script(src="client/todo.client.js")
-    script(src="client/jquery-1.11.1.min.js")
-    script(src="node_modules/bootstrap/dist/js/bootstrap.min.js")
+    //- script(src="client/jquery-1.11.1.min.js")
   body
-    .page-header
+    .page-header.col-md-12
       img(src="https://s3.amazonaws.com/nextcapital/static/images/web/NC_logo.svg")
-    .container
-      .row.span-12
-        div(ng-view)
+    .col-md-12
+      div(ng-view)

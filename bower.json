@@ -21,6 +21,6 @@
     "angular-ui-bootstrap": "~0.13.3",
     "angular-messages": "~1.4.5",
     "angular-match": "~1.0.1",
-    "angular-xeditable": "~0.1.9"
+    "angular-datatables": "~0.4.3"
   }
 }

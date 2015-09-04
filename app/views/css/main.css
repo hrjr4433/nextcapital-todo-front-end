@@ -20,6 +20,7 @@ body {
 .login-box {
   background-color: white;
   padding-bottom: 15px;
+  overflow-y: auto;
 }
 
 .welcome-message {
@@ -27,10 +28,36 @@ body {
   text-align: center;
 }
 
-.table {
-  width: 80%;
-  background-color: white;
+.dataTables_wrapper {
   display: block;
-  margin-left: auto;
-  margin-right: auto;
+  margin: 0px auto 0px auto;
+  padding: 10px 10px 10px 10px;
+  width: 80%;
+  border-radius: 10px;
+  background-color: white;
+}
+
+.navbar {
+  color: white;
+  margin-top: -55px;
+  margin-bottom: 20px; 
+}
+
+.add_todo {
+  font-size: 30px;
+  margin-top: 3px;
+}
+
+table {
+  border-spacing: 3px;
+  border-collapse: separate;
+}
+
+a.no_deco {
+  color: inherit;
+  text-decoration: none;
+}
+
+.glyphicon-check {
+  color: green;
 }

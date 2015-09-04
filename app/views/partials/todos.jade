@@ -1,18 +1,60 @@
-div.navbar(role="navigation")
-  ul.nav.navbar-nav.navbar-right
-    li
-      button.btn(ng-click="todos.logout()") Logout
+div.col-md-12.navbar
+  a.no_deco(href="#")
+    span.add_todo.glyphicon.glyphicon-pencil.pull-left(data-toggle="modal" data-target="#create")
+  a.no_deco(href="#")
+    h4.logout.pull-right(ng-click="todos.logout()") Logout
 
-table.table.table-hover
-  thead
-    tr
-      th ID
-      th Description
-      th Complete
-   tbody
-    tr(ng-repeat="item in todo_list")
-      td {{item.id}}
-      td 
-        p {{item.description}}
-      td 
-        {{item.is_complete}}
+//- button.btn.btn-default.btn-sm(type="button" data-toggle="modal" data-target="#create") New To Do
+.container
+  table.table-borderd.table-hover(datatable="ng" dt-options="dtOption" id="todo_list")
+    thead
+      tr
+        th(width="10%") ID
+        th(width="70%") Description
+        th(width="20%") Complete
+     tbody
+      tr(ng-repeat="item in todo_list")
+        td {{item.id}}
+        td(id="{{item.id}}" ng-click="todos.select(item)" data-toggle="modal" data-target="#edit")
+          a.no_deco(href="#")
+            div {{item.description}}
+        td
+          a.no_deco(href="#")
+            span.glyphicon(ng-class="{'glyphicon-check': item.is_complete ,'glyphicon-unchecked': !item.is_complete}"  data="{{item.is_complete}}" id="{{item.id}}" ng-click="todos.mark(item)")
+              p(ng-if="item.is_complete" style="display: none;") &#172;
+              p(ng-if="!item.is_complete" style="display: none;") &#182;
+
+.modal.fade(id="create",role="dialog")
+  .modal-dialog
+    .modal-content
+      .modal-header
+        button.close(type="button" data-dismiss="modal") &times;
+        h4.modal-title To Do
+      .modal-body(style="overflow-y: auto;")
+        .alert.alert-danger(ng-show="todos.create_error") {{todos.create_error}}
+        form(name="todoCreateForm" ng-submit="todos.create()" role="form")
+          .form-group(ng-class="{ 'has-error': todoCreateForm.desc.$touched && todoCreateForm.desc.$invalid }")
+            label Description
+            textarea.form-control(name="desc" ng-model="todos.desc" cols="40" rows="5" required)
+            div.help-block(ng-messages="todoCreateForm.desc.$touched && todoCreateForm.desc.$error")
+              p(ng-message="required") Your description is required.
+          .form-actions
+            button.btn.btn-primary.pull-left(type="submit" ng-disabled="todoCreateForm.$invalid || todos.dataLoading") Create
+            img(ng-if="todos.dataLoading" src="{{todos.loadingImage}}")
+
+.modal.fade(id="edit",role="dialog")
+  .modal-dialog
+    .modal-content
+      .modal-header
+        button.close(type="button" data-dismiss="modal") &times;
+        h4.modal-title To Do {{todos.selected.id}}
+      .modal-body(style="overflow-y: auto;")
+        form(name="todoEditForm" ng-submit="todos.edit()" role="form")
+          .form-group(ng-class="{ 'has-error': todoEditForm.desc.$touched && todoEditForm.desc.$invalid }")
+            label Description
+            textarea.form-control(name="desc" ng-model="todos.selected_desc" cols="40" rows="5" required)
+            div.help-block(ng-messages="todoEditForm.desc.$touched && todoEditForm.desc.$error")
+              p(ng-message="required") Your description is required.
+          .form-actions
+            button.btn.btn-primary.pull-left(type="submit" ng-disabled="todoEditForm.$invalid || todos.dataLoading") Edit
+            img(ng-if="todos.dataLoading" src="{{todos.loadingImage}}")
