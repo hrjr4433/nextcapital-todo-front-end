@@ -1,5 +1,14 @@
-todoApp.controller('homeCtrl', ['$scope', function($scope) {}]);
+// general error handling
+function general_error_handling(xhr) {
+  if (xhr.responseText == "") {
+    user.reg_error = "Error, it could be network issue.";
+  }
+  else {
+    alert(xhr.responseJSON["error"]) ;
+  } 
+}
 
+// controller for login page
 todoApp.controller('userCtrl', ['$scope', '$location', '$rootScope', '$cookieStore', '$http', 'loadingImage',
   function($scope, $location, $rootScope, $cookieStore, $http, loadingImage) {
     // if cookie exist, then go to todos page
@@ -10,7 +19,8 @@ todoApp.controller('userCtrl', ['$scope', '$location', '$rootScope', '$cookieSto
     user.register = register;
     user.loadingImage = loadingImage;
 
-    function setup_cookies(resp) {
+    // store the cookie
+    function store_cookie(resp) {
       $rootScope.globals = { currentUser: resp };
 
       $http.defaults.headers.common['Authorization'] = 'Basic ' + user.email;
@@ -26,7 +36,7 @@ todoApp.controller('userCtrl', ['$scope', '$location', '$rootScope', '$cookieSto
         email: user.email, 
         password: user.password, 
         success: function(resp) {
-          setup_cookies(resp);
+          store_cookie(resp);
         },
         error: function(xhr) {
           if (xhr.responseText == "") {
@@ -49,10 +59,11 @@ todoApp.controller('userCtrl', ['$scope', '$location', '$rootScope', '$cookieSto
         password: user.reg_password,
         success:  function(resp) {
           $("#register").modal("hide");
-          $('#register').on('hidden.bs.modal', function() { setup_cookies(resp); });
+          $('#register').on('hidden.bs.modal', function() { store_cookie(resp); });
           $scope.$apply();
         },
-        error:    function(xhr) {if (xhr.responseText == "") {
+        error:    function(xhr) {
+          if (xhr.responseText == "") {
             user.reg_error = "Error, it could be network issue.";
           }
           else {
@@ -67,6 +78,7 @@ todoApp.controller('userCtrl', ['$scope', '$location', '$rootScope', '$cookieSto
   }
 ]);
 
+// controller for To Do page
 todoApp.controller('todosCtrl', ['$scope', '$location', '$rootScope', '$cookieStore', '$http', '$route', 'loadingImage', 'DTOptionsBuilder',
   function($scope, $location, $rootScope, $cookieStore, $http, $route, loadingImage, DTOptionsBuilder) {
     var todos = this;
@@ -79,6 +91,7 @@ todoApp.controller('todosCtrl', ['$scope', '$location', '$rootScope', '$cookieSt
     todos.edit = edit;
     todos.loadingImage = loadingImage;
 
+    // clear stored cookie
     function clear_cookies() {
       // clear cookie
       $rootScope.globals = {};
@@ -86,6 +99,7 @@ todoApp.controller('todosCtrl', ['$scope', '$location', '$rootScope', '$cookieSt
       $http.defaults.headers.common.Authorization = 'To Do ';
     }
 
+    // load To Do list on loading the page using API
     (function() {
       Todo.loadTodos({
         success: function(list) {
@@ -94,13 +108,14 @@ todoApp.controller('todosCtrl', ['$scope', '$location', '$rootScope', '$cookieSt
           $scope.$apply();
         },
         error:   function(xhr)  {
-          alert(xhr.responseJSON["error"]);
+          general_error_handling(xhr);
           clear_cookies();
           $location.path('/login');
         }
       });
     })();
 
+    // logout using API
     function logout() {
       if (confirm("Do you really want to logout?")) {
         Todo.endSession({
@@ -110,12 +125,15 @@ todoApp.controller('todosCtrl', ['$scope', '$location', '$rootScope', '$cookieSt
             $scope.$apply();
           },
           error:   function(xhr)  {
-            alert(xhr.responseJSON["error"]);
+            general_error_handling(xhr);
+            clear_cookies();
+            $location.path('/login');
           }
         });
       }
     }
 
+    // create To Do using API
     function create() {
       todos.dataLoading = true;
       Todo.createTodo({
@@ -127,11 +145,14 @@ todoApp.controller('todosCtrl', ['$scope', '$location', '$rootScope', '$cookieSt
           $("#create").modal("hide");
           $('#create').on('hidden.bs.modal', function() { $route.reload(); });
         },
-        error:   function()     { alert('todo create error!') }
+        error:   function(xhr)     { 
+          general_error_handling(xhr);
+        }
       });
       todos.dataLoading = false;
     }
 
+    // update is_compelete of To Do using API
     function mark(item) {
       var is_completed = !(item.is_complete)
       Todo.updateTodo({
@@ -141,15 +162,19 @@ todoApp.controller('todosCtrl', ['$scope', '$location', '$rootScope', '$cookieSt
           item.is_complete = is_completed;
           $scope.$apply();
         },
-        error:   function(xhr)  { alert(xhr.responseJSON["error"]); }
+        error:   function(xhr)  { 
+          general_error_handling(xhr);
+        }
       });
     }
 
+    // save id of selected item and copy the description
     function select(item) { 
       todos.selected = item;
       todos.selected_desc = angular.copy(item.description); 
     }
 
+    // update description of To Do using API
     function edit() {
       todos.dataLoading = true;
       Todo.updateTodo({
@@ -161,7 +186,7 @@ todoApp.controller('todosCtrl', ['$scope', '$location', '$rootScope', '$cookieSt
           $("#edit").modal("hide");
         },
         error:   function(xhr)  { 
-          alert(xhr.responseJSON["error"]); 
+          general_error_handling(xhr);
           $route.reload();
         }
       });
