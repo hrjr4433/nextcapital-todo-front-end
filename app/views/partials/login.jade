@@ -24,7 +24,7 @@
   .modal-dialog
     .modal-content
       .modal-header
-        button.close(type="button" data-dismiss="modal") &times;
+        button.close(type="button" data-dismiss="modal" ng-click="user.reg_error = null") &times;
         h4.modal-title Register
       .modal-body(style="overflow-y: auto;")
         .alert.alert-danger(ng-show="user.reg_error") {{user.reg_error}}
@@ -47,7 +47,7 @@
               p(ng-message="required") Your password is required.
               p(ng-message="match") Your password doesn't match.
           .form-actions
-            button.btn.btn-primary.pull-left(type="submit" ng-disabled="regForm.$invalid || user.dataLoading") Register
+            button.btn.btn-primary.pull-left(type="submit" ng-disabled="regForm.$invalid || user.dataLoading" ng-click="user.reg_error = null") Register
             img(ng-if="user.dataLoading" src="{{user.loadingImage}}")
 
 

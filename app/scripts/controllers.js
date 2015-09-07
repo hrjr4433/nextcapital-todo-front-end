@@ -1,10 +1,10 @@
 // general error handling
 function general_error_handling(xhr) {
   if (xhr.responseText == "") {
-    user.reg_error = "Error, it could be network issue.";
+    return "Error, it could be network issue.";
   }
   else {
-    alert(xhr.responseJSON["error"]) ;
+    return xhr.responseJSON["error"];
   } 
 }
 
@@ -39,12 +39,7 @@ todoApp.controller('userCtrl', ['$scope', '$location', '$rootScope', '$cookieSto
           store_cookie(resp);
         },
         error: function(xhr) {
-          if (xhr.responseText == "") {
-            user.error = "Error, it could be network issue.";
-          }
-          else {
-            user.error = xhr.responseJSON["error"];
-          }
+          user.error = general_error_handling(xhr);
           user.dataLoading = false;
           $scope.$apply();
         }
@@ -108,7 +103,7 @@ todoApp.controller('todosCtrl', ['$scope', '$location', '$rootScope', '$cookieSt
           $scope.$apply();
         },
         error:   function(xhr)  {
-          general_error_handling(xhr);
+          alert(general_error_handling(xhr));
           clear_cookies();
           $location.path('/login');
         }
@@ -125,7 +120,7 @@ todoApp.controller('todosCtrl', ['$scope', '$location', '$rootScope', '$cookieSt
             $scope.$apply();
           },
           error:   function(xhr)  {
-            general_error_handling(xhr);
+            alert(general_error_handling(xhr));
             clear_cookies();
             $location.path('/login');
           }
@@ -146,7 +141,8 @@ todoApp.controller('todosCtrl', ['$scope', '$location', '$rootScope', '$cookieSt
           $('#create').on('hidden.bs.modal', function() { $route.reload(); });
         },
         error:   function(xhr)     { 
-          general_error_handling(xhr);
+          todos.create_error = general_error_handling(xhr);
+          $scope.$apply();
         }
       });
       todos.dataLoading = false;
@@ -163,12 +159,12 @@ todoApp.controller('todosCtrl', ['$scope', '$location', '$rootScope', '$cookieSt
           $scope.$apply();
         },
         error:   function(xhr)  { 
-          general_error_handling(xhr);
+          alert(general_error_handling(xhr));
         }
       });
     }
 
-    // save id of selected item and copy the description
+    // save selected item and copy the description
     function select(item) { 
       todos.selected = item;
       todos.selected_desc = angular.copy(item.description); 
@@ -186,8 +182,8 @@ todoApp.controller('todosCtrl', ['$scope', '$location', '$rootScope', '$cookieSt
           $("#edit").modal("hide");
         },
         error:   function(xhr)  { 
-          general_error_handling(xhr);
-          $route.reload();
+          todos.edit_error = general_error_handling(xhr);
+          $scope.$apply();
         }
       });
       todos.dataLoading = false;

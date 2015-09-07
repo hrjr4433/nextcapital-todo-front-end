@@ -1,6 +1,6 @@
 div.col-md-12.navbar
   a.no_deco(href="#")
-    span.add_todo.glyphicon.glyphicon-pencil.pull-left(data-toggle="modal" data-target="#create")
+    span.add_todo.glyphicon.glyphicon-pencil.pull-left(data-toggle="modal" data-target="#create" ng-click="todos.create_error = null")
   a.no_deco(href="#")
     h4.logout.pull-right(ng-click="todos.logout()") Logout
 
@@ -14,7 +14,7 @@ div.col-md-12.navbar
      tbody
       tr(ng-repeat="item in todo_list")
         td {{item.id}}
-        td(id="{{item.id}}" ng-click="todos.select(item)" data-toggle="modal" data-target="#edit")
+        td(id="{{item.id}}" ng-click="todos.edit_error = null; todos.select(item)" data-toggle="modal" data-target="#edit")
           a.no_deco(href="#")
             div {{item.description}}
         td
@@ -48,6 +48,7 @@ div.col-md-12.navbar
         button.close(type="button" data-dismiss="modal") &times;
         h4.modal-title To Do {{todos.selected.id}}
       .modal-body(style="overflow-y: auto;")
+        .alert.alert-danger(ng-show="todos.edit_error") {{todos.edit_error}}
         form(name="todoEditForm" ng-submit="todos.edit()" role="form")
           .form-group(ng-class="{ 'has-error': todoEditForm.desc.$touched && todoEditForm.desc.$invalid }")
             label Description
