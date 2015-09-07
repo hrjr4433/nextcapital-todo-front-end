@@ -123,6 +123,7 @@ todoApp.controller('todosCtrl', ['$scope', '$location', '$rootScope', '$cookieSt
             alert(general_error_handling(xhr));
             clear_cookies();
             $location.path('/login');
+            $scope.$apply();
           }
         });
       }
